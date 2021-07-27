@@ -1,8 +1,8 @@
-# Phylodynamic model adequacy and classification
+# Phylodynamics model adequacy and classification
 
 
+### Notes for simulations
 
-### Notes for simualations
 - For simulations:
 	- 1,000 trees for each setting
 		- BD
