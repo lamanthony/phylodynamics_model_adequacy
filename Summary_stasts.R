@@ -1,5 +1,6 @@
 #Summary statistics
 #ours
+
 mean_internal_node_age <- mean(node_times_sorted) / max(node_times_sorted)
 
 node_times_sorted <- sort(intnode.times(tree), decreasing = T)
