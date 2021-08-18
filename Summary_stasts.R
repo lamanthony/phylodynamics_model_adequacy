@@ -31,11 +31,22 @@ ie_var_ratio <- i_var / e_var
 colless_index <- #sum for each internal node of the absolute difference between 
   #the number of leaves on the left side / num of leaves right
 sackin <- #sum for each leaf of the number of internal nodes between the leaf and the root
-WD_ratio <- # Ratio of the maximal width (W) over the maximal depth (D), where 
+WD_ratio <-function(tree){
+    node_depth <- node.depth(tree)
+    max_depth <- sort(node_depth, decreasing = T)[2]
+    node_width <- table(node_depth[!(node_depth == 1 | node_depth == length(tree$tip.label))])
+    return(max(node_width) / max_depth)
+} # Ratio of the maximal width (W) over the maximal depth (D), where 
   #the depth of a node characterizes the number of branchs that lies between it
 #and the root, and the width of a tree at a depth level d is the number of nodes
 #that have the same depth d.
-delta_w <- #maximal difference in width
+delta_w <- function(tree){
+    tree <- tr
+    node_depth <- node.depth(tree)
+    node_depth <- node_depth[!(node_depth == 1 | node_depth == length(tree$tip.label))]
+    node_width <- table(node_depth)
+    return(diff(range(node_width)))
+} #maximal difference in width
 max_ladder <- #maximal number of internal nodes in a ladder which is a chain of
   #connected internal nodes each linked to a single leaf, divided by the number of leaves
 IL_nodes <- #proportion of internal nodes in Ladders
