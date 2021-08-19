@@ -29,9 +29,11 @@ ie_median_ratio <- i_median_branch /e_median_length
 ie_var_ratio <- i_var / e_var
 
 #summary stat based on topology
-colless_index <- #sum for each internal node of the absolute difference between 
+colless_index <- colless(as.treeshape(tree))
+#sum for each internal node of the absolute difference between 
   #the number of leaves on the left side / num of leaves right
-sackin <- #sum for each leaf of the number of internal nodes between the leaf and the root
+sackin <- sackin(as.treeshape(tree), norm = NULL)
+#sum for each leaf of the number of internal nodes between the leaf and the root
 WD_ratio <-function(tree){
     node_depth <- node.depth(tree)
     max_depth <- sort(node_depth, decreasing = T)[2]
