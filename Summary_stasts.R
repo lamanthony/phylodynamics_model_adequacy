@@ -121,5 +121,6 @@ slope_1 <- get.ltt.summary(tree)[2]
 slope_2 <- get.ltt.summary(tree)[3]
 ltt_ratio <-get.ltt.summary(tree)[4]
 mean_s_time <- #mean time between two consecutive down steps (mean sampling time)
-mean_b_time <- #Piecewise mean times between two consecutive up steps (mean branching times)
+mean_b_time <- sum(unlist(branching.times(tree))/ length(branching.times(tree))) 
+#Piecewise mean times between two consecutive up steps (mean branching times)
 
