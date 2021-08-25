@@ -14,7 +14,7 @@ mean_internal_node_age <- mean(node_times_sorted) / max(node_times_sorted)
 
 #summary stat based on branch length
 max_H <- sum(tree$edge.length)
-min_H <- 
+min_H <- #sum of the branch lengths between the root and its closest leaf
 mean_branch <- mean(tree$edge.length)
 median_branch <- median(tree$edge.length)
 variance <- var(tree$edge.length)
