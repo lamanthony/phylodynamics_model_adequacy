@@ -50,12 +50,68 @@ delta_w <- function(tree){
     node_width <- table(node_depth)
     return(diff(range(node_width)))
 } #maximal difference in width
-max_ladder <- #maximal number of internal nodes in a ladder which is a chain of
+max_ladder <-  max_ladder <- max(node.depth(tree,method =2)) / length(tree$tip.label)
+#maximal number of internal nodes in a ladder which is a chain of
   #connected internal nodes each linked to a single leaf, divided by the number of leaves
-IL_nodes <- #proportion of internal nodes in Ladders
-Staircaseness_1 <- #Proportion of imbalanced internal nodes that have different 
+
+ladderScores3<-function(tree)
+{
+  LT<-NULL
+  tr<- ladderize(tree)
+  b <- balance(tr)
+  count <- 0
+  for (i in 1:length(b[,1]))
+  {
+    left<-as.numeric(b[i,1])
+    right <-as.numeric(b[i,2])
+    if (left == 1){
+      count = count+1
+    } else if (right == 1){
+        count = count +1
+      }
+  }
+  LT <- count / (length(b[,1]))
+  return (LT)
+IL_nodes <- ladderScores3(tree)
+  #proportion of internal nodes in Ladders
+  
+  ladderScores<-function(tree)
+{
+  LT<-NULL
+  tr<- ladderize(tree)
+  b <- balance(tr)
+  for (i in 1:length(b[,1]))
+  {
+    left<-as.numeric(b[i,1])
+    right <-as.numeric(b[i,2])
+    ratio <- right/left
+    LT <- c(LT,ratio)
+  }
+  LT=sort(LT)
+  return (LT)
+}
+LT=ladderScores(tree)
+Staircaseness_1 <- length(which(LT<1))/length(LT)
+  #Proportion of imbalanced internal nodes that have different 
   #numbers of leaves between the left and the right side
-Staircaseness_2 <- #Mean ratio of the minimal number of leaves on a side over 
+  
+ ladderScores2<-function(tree)
+{
+  LT<-NULL
+  tr<- ladderize(tree)
+  b <- balance(tr)
+  for (i in 1:length(b[,1]))
+  {
+    left<-as.numeric(b[i,1])
+    right <-as.numeric(b[i,2])
+    combine <- c(left , right) 
+    ratio <- min(combine)/max(combine)
+    LT <- c(LT,ratio)
+  }
+  LT=sort(LT)
+  return (LT)}
+Staircaseness_2 <- sum(unlist(ladderScores2(tree)))/length(ladderScores2(tree))
+  #Mean ratio of the minimal number of leaves on a side over 
   #the maximal number of leaves on a side, for each internal node.
   
 #summary stat based on LTT plot
