@@ -126,15 +126,32 @@ time_max <- get.ltt.summary(tree)[1]
 slope_1 <- get.ltt.summary(tree)[2]
 slope_2 <- get.ltt.summary(tree)[3]
 ltt_ratio <-get.ltt.summary(tree)[4]
+
+  
 mean_s_time <- function(tr){
-  coords <-  ltt.plot.coords(tr)
-  dLineages <- diff(coords[, 'N'] )
-  for(i in 2:length(dLineages)){
-      if(dLineages[i] < 0 & dLineages[i-1] == dLineages[i]){
-          break
-      }
-  }
-  return( mean(coords[c(i-1, i), 'time']) )
-}#mean time between two consecutive down steps (mean sampling time)
-mean_b_time <- sum(unlist(branching.times(tree))/ length(branching.times(tree))) 
-#Piecewise mean times between two consecutive up steps (mean branching times)
+    coords <-  ltt.plot.coords(tr)
+    dLineages <- diff(coords[, 'N'] )
+    downSteps <- vector()
+    iS <- vector()
+    for(i in 2:length(dLineages)){
+        if(dLineages[i] < 0 & dLineages[i-1] == dLineages[i]){
+            downSteps <- c(downSteps, coords[i, 'time'] - coords[i-1, 'time'])
+            iS <- c(iS, i)
+        }
+    }
+    return(mean(downSteps))
+}#mean time between two consecutive down steps (mean sampling time) 
+mean_b_time <- function(tr){
+    coords <-  ltt.plot.coords(tr)
+    dLineages <- diff(coords[, 'N'] )
+    upSteps <- vector()
+    iS <- vector()
+    for(i in 2:length(dLineages)){
+        if(dLineages[i] > 0 & dLineages[i-1] == dLineages[i]){
+            upSteps <- c(upSteps, coords[i, 'time'] - coords[i-1, 'time'])
+            iS <- c(iS, i)
+        }
+    }
+    return(mean(upSteps))
+}
+  
