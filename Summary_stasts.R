@@ -14,7 +14,13 @@ mean_internal_node_age <- mean(node_times_sorted) / max(node_times_sorted)
 
 #summary stat based on branch length
 max_H <- sum(tree$edge.length)
-min_H <- #sum of the branch lengths between the root and its closest leaf
+
+min_H <- function(tr){
+    tipHeights <- allnode.times(tr, tipsonly = T, reverse = T)
+    return(min(tipHeights))
+} #sum of the branch lengths between the root and its closest leaf
+
+    
 mean_branch <- mean(tree$edge.length)
 median_branch <- median(tree$edge.length)
 variance <- var(tree$edge.length)
@@ -120,7 +126,15 @@ time_max <- get.ltt.summary(tree)[1]
 slope_1 <- get.ltt.summary(tree)[2]
 slope_2 <- get.ltt.summary(tree)[3]
 ltt_ratio <-get.ltt.summary(tree)[4]
-mean_s_time <- #mean time between two consecutive down steps (mean sampling time)
+mean_s_time <- function(tr){
+  coords <-  ltt.plot.coords(tr)
+  dLineages <- diff(coords[, 'N'] )
+  for(i in 2:length(dLineages)){
+      if(dLineages[i] < 0 & dLineages[i-1] == dLineages[i]){
+          break
+      }
+  }
+  return( mean(coords[c(i-1, i), 'time']) )
+}#mean time between two consecutive down steps (mean sampling time)
 mean_b_time <- sum(unlist(branching.times(tree))/ length(branching.times(tree))) 
 #Piecewise mean times between two consecutive up steps (mean branching times)
-
